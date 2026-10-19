@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Reservations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6fa;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        h1 { color: #183153; }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 11px;
+            margin-top: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            margin-top: 20px;
+            background: #183153;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .message {
+            padding: 10px;
+            background: #edf7ed;
+            color: #216e21;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th { background: #183153; color: white; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Book a Parking Slot</h1>
+    <p>Select your vehicle, an available slot, and your booking time.</p>
+
+    {% if message %}
+        <p class="message">{{ message }}</p>
+    {% endif %}
+
+    <form action="/reservations" method="POST">
+        <label for="vehicle_id">Your Vehicle</label>
+        <select id="vehicle_id" name="vehicle_id" required>
+            {% for vehicle in vehicles %}
+            <option value="{{ vehicle.vehicle_id }}">
+                {{ vehicle.vehicle_number }} — {{ vehicle.vehicle_type }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label for="slot_id">Available Parking Slot</label>
+        <select id="slot_id" name="slot_id" required>
+            {% for slot in slots %}
+            <option value="{{ slot.slot_id }}">
+                {{ slot.slot_number }} — {{ slot.slot_type }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label for="reservation_date">Reservation Date</label>
+        <input type="date" id="reservation_date"
+               name="reservation_date" required>
+
+        <label for="start_time">Start Time</label>
+        <input type="time" id="start_time"
+               name="start_time" required>
+
+        <label for="end_time">End Time</label>
+        <input type="time" id="end_time"
+               name="end_time" required>
+
+        <button type="submit">Book Parking</button>
+    </form>
+
+    <h2>Your Reservations</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Slot</th>
+                <th>Vehicle</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.slot_number }}</td>
+                <td>{{ reservation.vehicle_number }}</td>
+                <td>{{ reservation.reservation_date }}</td>
+                <td>{{ reservation.start_time }}–{{ reservation.end_time }}</td>
+                <td>{{ reservation.status }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5">No reservations yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="/dashboard">Back to Dashboard</a></p>
+</div>
+</body>
+</html>

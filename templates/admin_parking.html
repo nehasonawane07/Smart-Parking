@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Parking Operations</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 25px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        h1, h2 {
+            color: #243b55;
+        }
+
+        .message {
+            padding: 12px;
+            margin: 15px 0;
+            background: #e8f5e9;
+            border-radius: 5px;
+        }
+
+        form {
+            margin: 20px 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        select, button {
+            padding: 10px;
+            margin-top: 6px;
+        }
+
+        select {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        button {
+            background: #243b55;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #243b55;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        a {
+            color: #1769aa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Parking Operations</h1>
+        <p>Manage vehicle entry and exit.</p>
+
+        <p>
+            <a href="{{ url_for('admin_dashboard') }}">
+                Back to Admin Dashboard
+            </a>
+        </p>
+
+        {% if message %}
+        <div class="message">{{ message }}</div>
+        {% endif %}
+
+        <h2>Vehicle Entry</h2>
+
+        <form action="{{ url_for('admin_parking') }}" method="POST">
+            <input type="hidden" name="action" value="entry">
+
+            <label for="vehicle_id">Select Vehicle</label>
+            <select id="vehicle_id" name="vehicle_id" required>
+                <option value="">Choose a vehicle</option>
+                {% for vehicle in vehicles %}
+                <option value="{{ vehicle.vehicle_id }}">
+                    {{ vehicle.vehicle_number }} — {{ vehicle.vehicle_type }}
+                    ({{ vehicle.customer_name }})
+                </option>
+                {% endfor %}
+            </select>
+
+            <label for="slot_id">Select Available Slot</label>
+            <select id="slot_id" name="slot_id" required>
+                <option value="">Choose a slot</option>
+                {% for slot in available_slots %}
+                <option value="{{ slot.slot_id }}">
+                    {{ slot.slot_number }} — {{ slot.slot_type }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Record Vehicle Entry</button>
+        </form>
+
+        <h2>Currently Parked Vehicles</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Vehicle Number</th>
+                    <th>Vehicle Type</th>
+                    <th>Parking Slot</th>
+                    <th>Entry Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for entry in active_entries %}
+                <tr>
+                    <td>{{ entry.vehicle_number }}</td>
+                    <td>{{ entry.vehicle_type }}</td>
+                    <td>{{ entry.slot_number }}</td>
+                    <td>{{ entry.entry_time }}</td>
+                    <td>
+                        <form action="{{ url_for('admin_parking') }}" method="POST">
+                            <input type="hidden" name="action" value="exit">
+                            <input type="hidden" name="entry_id" value="{{ entry.entry_id }}">
+                            <button type="submit">Record Exit</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">No vehicles are currently parked.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

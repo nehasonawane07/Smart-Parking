@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Parking Slots</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6fa;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            color: #183153;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #183153;
+            color: white;
+        }
+
+        .available {
+            color: green;
+            font-weight: bold;
+        }
+
+        .occupied {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        a {
+            color: #1769aa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Available Parking Slots</h1>
+        <p>Welcome, {{ customer_name }}!</p>
+
+        <p>
+            Total Slots: <strong>{{ total_slots }}</strong>
+            &nbsp; | &nbsp;
+            Available Slots: <strong>{{ available_slots }}</strong>
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Slot Number</th>
+                    <th>Vehicle Type</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for slot in slots %}
+                <tr>
+                    <td>{{ slot.slot_number }}</td>
+                    <td>{{ slot.slot_type }}</td>
+                    <td class="{{ 'available' if slot.status == 'Available' else 'occupied' }}">
+                        {{ slot.status }}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3">No parking slots found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p><a href="/dashboard">Back to Dashboard</a></p>
+    </div>
+</body>
+</html>

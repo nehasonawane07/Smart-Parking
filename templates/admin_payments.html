@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Records | Smart Parking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6fa;
+            margin: 0;
+            padding: 25px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1f3a5f;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 25px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px #0001;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #1f3a5f;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f7f9fc;
+        }
+
+        .status {
+            color: #18794e;
+            font-weight: bold;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 18px;
+            color: #1f5da8;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Smart Parking — Payment Records</h1>
+
+    <div class="container">
+        <h2>All Payments</h2>
+
+        {% if payments %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>Entry ID</th>
+                    <th>Customer</th>
+                    <th>Vehicle Number</th>
+                    <th>Entry Time</th>
+                    <th>Exit Time</th>
+                    <th>Amount (₹)</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                    <th>Payment Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in payments %}
+                <tr>
+                    <td>{{ p.payment_id }}</td>
+                    <td>{{ p.entry_id }}</td>
+                    <td>{{ p.customer_name }}</td>
+                    <td>{{ p.vehicle_number }}</td>
+                    <td>{{ p.entry_time or '-' }}</td>
+                    <td>{{ p.exit_time or '-' }}</td>
+                    <td>₹{{ "%.2f"|format(p.amount) }}</td>
+                    <td>{{ p.payment_method }}</td>
+                    <td class="status">{{ p.payment_status }}</td>
+                    <td>{{ p.payment_date or '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No payment records found.</p>
+        {% endif %}
+
+        <a href="{{ url_for('admin_dashboard') }}">
+            ← Back to Admin Dashboard
+        </a>
+    </div>
+</body>
+</html>

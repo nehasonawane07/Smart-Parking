@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6fa;
+            padding: 25px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        h1 { color: #183153; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #183153;
+            color: white;
+        }
+
+        a { color: #1769aa; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>My Parking History</h1>
+    <p>Welcome, {{ customer_name }}!</p>
+    <p>View your parking entry and exit records below.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Vehicle Number</th>
+                <th>Slot</th>
+                <th>Entry Time</th>
+                <th>Exit Time</th>
+                <th>Status</th>
+                <th>Amount Paid</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in history %}
+            <tr>
+                <td>{{ record.vehicle_number }}</td>
+                <td>{{ record.slot_number }}</td>
+                <td>{{ record.entry_time }}</td>
+                <td>{{ record.exit_time or 'Not exited yet' }}</td>
+                <td>{{ record.status }}</td>
+                <td>
+                    {% if record.amount_paid is not none %}
+                        ₹{{ record.amount_paid }}
+                    {% else %}
+                        Not paid
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6">No parking history found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><a href="/dashboard">Back to Dashboard</a></p>
+</div>
+</body>
+</html>

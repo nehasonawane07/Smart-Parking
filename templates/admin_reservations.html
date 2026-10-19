@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - All Reservations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background: #f4f6f9;
+            color: #222;
+        }
+        h1 {
+            color: #17365d;
+        }
+        .table-container {
+            overflow-x: auto;
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+            white-space: nowrap;
+        }
+        th {
+            background: #17365d;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background: #f2f5f9;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 18px;
+            color: #17365d;
+        }
+        .empty {
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>All Parking Reservations</h1>
+
+    <a class="back-link" href="{{ url_for('admin_dashboard') }}">
+        ← Back to Admin Dashboard
+    </a>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Reservation ID</th>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                    <th>Vehicle Number</th>
+                    <th>Vehicle Type</th>
+                    <th>Parking Slot</th>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in reservations %}
+                <tr>
+                    <td>{{ r.reservation_id }}</td>
+                    <td>{{ r.customer_name }}</td>
+                    <td>{{ r.customer_phone }}</td>
+                    <td>{{ r.vehicle_number }}</td>
+                    <td>{{ r.vehicle_type }}</td>
+                    <td>{{ r.slot_number }}</td>
+                    <td>{{ r.reservation_date }}</td>
+                    <td>{{ r.start_time }}</td>
+                    <td>{{ r.end_time }}</td>
+                    <td>{{ r.status }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="10" class="empty">
+                        No reservations found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

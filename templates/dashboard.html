@@ -1,0 +1,151 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard - Smart Parking</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        .logout {
+            color: white;
+            text-decoration: none;
+            border: 1px solid white;
+            padding: 9px 16px;
+            border-radius: 6px;
+        }
+
+        main {
+            max-width: 1050px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .welcome {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .welcome h1 {
+            color: #1e3a8a;
+            margin-top: 0;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #1e3a8a;
+        }
+
+        .card p {
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .card a {
+            display: inline-block;
+            margin-top: 10px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 6px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h2>Smart Parking</h2>
+        <a class="logout" href="/logout">Logout</a>
+    </header>
+
+    <main>
+        <section class="welcome">
+            <h1>Welcome, {{ customer_name }}!</h1>
+            <p>
+                Welcome to your Smart Parking customer dashboard.
+                Manage your vehicles and explore parking services here.
+            </p>
+        </section>
+
+        <section class="cards">
+            <div class="card">
+                <h3>My Vehicles</h3>
+                <p>Register and manage your vehicles.</p>
+                <a href="/vehicles">View Vehicles</a>
+            </div>
+
+            <div class="card">
+                <h3>Parking Slots</h3>
+                <p>Check parking slot availability.</p>
+                <a href="/slots">View Slots</a>
+            </div>
+
+            <div class="card">
+                <h3>My Reservations</h3>
+                <p>Keep track of your parking bookings.</p>
+                <a href="/reservations">View Reservations</a>
+            </div>
+
+            <div class="card">
+                <h3>Parking History</h3>
+                <p>Review your previous parking visits.</p>
+                <a href="/history">View History</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        Smart Parking Management System
+    </footer>
+</body>
+</html>
+```

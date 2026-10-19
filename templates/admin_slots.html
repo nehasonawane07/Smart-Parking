@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Manage Parking Slots</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 25px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: #243b55;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #243b55;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        .available {
+            color: green;
+            font-weight: bold;
+        }
+
+        .unavailable {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        a {
+            color: #1769aa;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Manage Parking Slots</h1>
+        <p>View the current status of all parking slots.</p>
+
+        <p>
+            <a href="{{ url_for('admin_dashboard') }}">
+                Back to Admin Dashboard
+            </a>
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Slot ID</th>
+                    <th>Slot Number</th>
+                    <th>Slot Type</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for slot in slots %}
+                <tr>
+                    <td>{{ slot.slot_id }}</td>
+                    <td>{{ slot.slot_number }}</td>
+                    <td>{{ slot.slot_type }}</td>
+                    <td class="{% if slot.status == 'Available' %}available{% else %}unavailable{% endif %}">
+    {{ slot.status }}
+</td>
+<td>
+    <form action="{{ url_for('admin_update_slot', slot_id=slot.slot_id) }}" method="POST">
+        <select name="status" required>
+            <option value="Available" {% if slot.status == 'Available' %}selected{% endif %}>Available</option>
+            <option value="Unavailable" {% if slot.status == 'Unavailable' %}selected{% endif %}>Unavailable</option>
+        </select>
+        <button type="submit">Update</button>
+    </form>
+</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">No parking slots found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

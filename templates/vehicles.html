@@ -1,0 +1,175 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Vehicles - Smart Parking</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            color: #1e293b;
+        }
+
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 20px 7%;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .panel {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        h1, h2 {
+            color: #1e3a8a;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px;
+            margin-top: 7px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 18px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        th {
+            background: #eff6ff;
+        }
+
+        .message {
+            padding: 12px;
+            background: #eff6ff;
+            border-radius: 6px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="/dashboard">← Back to Dashboard</a>
+    </header>
+
+    <main>
+        <section class="panel">
+            <h1>My Vehicles</h1>
+            <p>Register a vehicle to use the Smart Parking system.</p>
+            {% if message %}
+<p class="message">{{ message }}</p>
+{% endif %}
+
+            <form action="/vehicles" method="POST">
+                <label for="vehicle_number">Vehicle Registration Number</label>
+                <input
+                    type="text"
+                    id="vehicle_number"
+                    name="vehicle_number"
+                    placeholder="Example: MH01AB1234"
+                    maxlength="20"
+                    required
+                >
+
+                <label for="vehicle_type">Vehicle Type</label>
+                <select id="vehicle_type" name="vehicle_type" required>
+                    <option value="">Select vehicle type</option>
+                    <option value="Car">Car</option>
+                    <option value="Bike">Bike</option>
+                </select>
+
+                <label for="vehicle_model">Vehicle Model</label>
+                <input
+                    type="text"
+                    id="vehicle_model"
+                    name="vehicle_model"
+                    placeholder="Example: Honda City"
+                    maxlength="50"
+                >
+
+                <button type="submit">Add Vehicle</button>
+            </form>
+        </section>
+
+        <section class="panel">
+            <h2>My Registered Vehicles</h2>
+
+            {% if vehicles %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Registration Number</th>
+                        <th>Type</th>
+                        <th>Model</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vehicle in vehicles %}
+                    <tr>
+                        <td>{{ vehicle.vehicle_number }}</td>
+                        <td>{{ vehicle.vehicle_type }}</td>
+                        <td>{{ vehicle.vehicle_model or '-' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="message">You haven't registered any vehicles yet.</p>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>
+```
